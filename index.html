@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MR SIAM HOSEN</title>
+  <!-- Stylish Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+      font-family: 'Orbitron', sans-serif;
+    }
+    /* Welcome screen */
+    .welcome {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      background: black;
+      color: white;
+      font-size: 2rem;
+    }
+    .enter-btn {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #ff00ff, #00ffff);
+      color: black;
+      font-weight: bold;
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #ff00ff; }
+      to { box-shadow: 0 0 20px #00ffff; }
+    }
+    /* Main content */
+    .content {
+      display: none;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 40px;
+      pointer-events: none;
+    }
+    .name {
+      font-size: 3rem;
+      color: #fff;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #00f;
+      animation: flicker 1.5s infinite alternate;
+      margin-bottom: 20px;
+    }
+    @keyframes flicker {
+      0% { opacity: 1; }
+      50% { opacity: 0.8; }
+      100% { opacity: 1; }
+    }
+    .buttons {
+      position: absolute;
+      bottom: 30px;
+      right: 30px; /* এখানে পরিবর্তন করা হলো */
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+      pointer-events: auto;
+    }
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      background: linear-gradient(45deg, #ff0066, #6600ff);
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+      min-width: 120px;
+      text-align: center;
+    }
+    .btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #00ffff;
+    }
+    /* মোবাইল ফ্রেন্ডলি */
+    @media (max-width: 600px) {
+      .name { font-size: 2rem; }
+      .btn { font-size: 0.9rem; padding: 10px 15px; min-width: 100px; }
+      .buttons { gap: 10px; bottom: 20px; right: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Welcome page -->
+  <div class="welcome" id="welcome">
+    <div>Welcome to My Page</div>
+    <button class="enter-btn" onclick="enterSite()">Click to Enter</button>
+  </div>
+
+  <!-- Main content -->
+  <div class="content" id="content">
+    <video id="video" autoplay muted loop playsinline preload="auto">
+      <source src="assets/video.mp4" type="video/mp4">
+    </video>
+    <div class="overlay">
+      <div class="name">MR SIAM HOSEN</div>
+    </div>
+    <div class="buttons">
+      <a href="https://discord.gg/ejwZ7hZuqX" target="_blank"><button class="btn">Discord</button></a>
+      <a href="https://www.facebook.com/siam.hosen.927758" target="_blank"><button class="btn">Facebook</button></a>
+    </div>
+    <audio id="bg-music" loop preload="auto">
+      <source src="assets/music.mp3" type="audio/mp3">
+    </audio>
+  </div>
+
+  <script>
+    function enterSite() {
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("content").style.display = "block";
+
+      let video = document.getElementById("video");
+      let music = document.getElementById("bg-music");
+
+      video.muted = false;
+      video.play().catch(err => console.log("ভিডিও চালানো গেল না:", err));
+      music.play().catch(err => console.log("মিউজিক চালানো গেল না:", err));
+    }
+  </script>
+</body>
+</html>
