@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MR SIAM HOSEN</title>
-  <!-- Stylish Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
     body, html {
@@ -15,6 +14,7 @@
       overflow: hidden;
       font-family: 'Orbitron', sans-serif;
     }
+
     /* Welcome screen */
     .welcome {
       display: flex;
@@ -42,6 +42,7 @@
       from { box-shadow: 0 0 10px #ff00ff; }
       to { box-shadow: 0 0 20px #00ffff; }
     }
+
     /* Main content */
     .content {
       display: none;
@@ -73,16 +74,19 @@
       text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #00f;
       animation: flicker 1.5s infinite alternate;
       margin-bottom: 20px;
+      text-align: center;
     }
     @keyframes flicker {
       0% { opacity: 1; }
       50% { opacity: 0.8; }
       100% { opacity: 1; }
     }
+
+    /* Buttons */
     .buttons {
       position: absolute;
       bottom: 30px;
-      right: 30px; /* এখানে পরিবর্তন করা হলো */
+      right: 30px;
       display: flex;
       flex-direction: row;
       gap: 15px;
@@ -104,16 +108,101 @@
       transform: scale(1.1);
       box-shadow: 0 0 15px #00ffff;
     }
-    /* মোবাইল ফ্রেন্ডলি */
-    @media (max-width: 600px) {
-      .name { font-size: 2rem; }
-      .btn { font-size: 0.9rem; padding: 10px 15px; min-width: 100px; }
-      .buttons { gap: 10px; bottom: 20px; right: 20px; }
+
+    /* Music control */
+    .music-control {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      pointer-events: auto;
+    }
+    #music-btn {
+      background: #111;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      color: #0ff;
+      font-size: 1.5rem;
+      box-shadow: 0 0 10px #0ff;
+      transition: all 0.3s ease;
+    }
+    #music-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+    }
+    #volume-slider {
+      width: 0;
+      opacity: 0;
+      transition: width 0.4s ease, opacity 0.4s ease;
+      appearance: none;
+      height: 5px;
+      background: #333;
+      border-radius: 5px;
+    }
+    .music-control:hover #volume-slider {
+      width: 100px;
+      opacity: 1;
+    }
+    #volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #0ff;
+      cursor: pointer;
+      box-shadow: 0 0 5px #0ff;
+    }
+    #volume-slider::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #0ff;
+      cursor: pointer;
+      box-shadow: 0 0 5px #0ff;
+    }
+
+    /* Mobile friendly */
+    @media (max-width: 768px) {
+      .name { font-size: 2rem; padding-top: 20px; }
+      .buttons {
+        flex-direction: column;
+        gap: 12px;
+        bottom: 15px;
+        right: 50%;
+        transform: translateX(50%);
+        align-items: center;
+      }
+      .btn {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+        min-width: 120px;
+      }
+      .music-control {
+        top: auto;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 8px;
+      }
+      #music-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+      #volume-slider {
+        width: 80px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Welcome page -->
+  <!-- Welcome screen -->
   <div class="welcome" id="welcome">
     <div>Welcome to My Page</div>
     <button class="enter-btn" onclick="enterSite()">Click to Enter</button>
@@ -124,13 +213,24 @@
     <video id="video" autoplay muted loop playsinline preload="auto">
       <source src="assets/video.mp4" type="video/mp4">
     </video>
+
     <div class="overlay">
       <div class="name">MR SIAM HOSEN</div>
     </div>
+
+    <!-- Music control -->
+    <div class="music-control">
+      <button id="music-btn">🔊</button>
+      <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+    </div>
+
+    <!-- Social buttons -->
     <div class="buttons">
       <a href="https://discord.gg/ejwZ7hZuqX" target="_blank"><button class="btn">Discord</button></a>
       <a href="https://www.facebook.com/siam.hosen.927758" target="_blank"><button class="btn">Facebook</button></a>
     </div>
+
+    <!-- Background music -->
     <audio id="bg-music" loop preload="auto">
       <source src="assets/music.mp3" type="audio/mp3">
     </audio>
@@ -148,6 +248,21 @@
       video.play().catch(err => console.log("ভিডিও চালানো গেল না:", err));
       music.play().catch(err => console.log("মিউজিক চালানো গেল না:", err));
     }
+
+    const music = document.getElementById("bg-music");
+    const btn = document.getElementById("music-btn");
+    const slider = document.getElementById("volume-slider");
+
+    btn.addEventListener("click", () => {
+      music.muted = !music.muted;
+      btn.textContent = music.muted ? "🔇" : "🔊";
+    });
+
+    slider.addEventListener("input", () => {
+      music.volume = slider.value;
+      btn.textContent = music.volume == 0 ? "🔇" : "🔊";
+    });
   </script>
 </body>
 </html>
+
